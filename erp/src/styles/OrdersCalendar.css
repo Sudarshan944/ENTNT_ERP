@@ -1,0 +1,19 @@
+/* OrdersCalendar.css */
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+
+.orders-calendar {
+    margin-bottom: 40px;
+}
+
+.orders-calendar h3 {
+    margin-top: 20px;
+}
+
+.orders-calendar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.orders-calendar li {
+    margin-bottom: 5px;
+}

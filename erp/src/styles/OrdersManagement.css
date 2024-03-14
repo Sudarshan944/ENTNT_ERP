@@ -1,0 +1,65 @@
+/* OrdersManagement.css */
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+
+.orders-management {
+    margin-bottom: 40px;
+}
+
+.orders-management table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders-management th,
+.orders-management td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.orders-management th {
+    background-color: #f2f2f2;
+}
+
+.order-details {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+}
+
+.order-details h3 {
+    margin-top: 0;
+}
+
+.order-details select,
+.order-details button {
+    margin-top: 10px;
+}
+
+.add-order-form {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.add-order-form input,
+.add-order-form select,
+.add-order-form button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.add-order-form button {
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-order-form button:hover {
+    background-color: #45a049;
+}

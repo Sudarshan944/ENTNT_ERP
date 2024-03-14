@@ -1,0 +1,10 @@
+/* Dashboard.css */
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+
+.dashboard {
+    text-align: center;
+    margin: 0 auto;
+    /* Center align horizontally */
+    max-width: 600px;
+    /* Adjust the maximum width as per your design */
+}

@@ -15,6 +15,7 @@ export const OrdersProvider = ({ children }) => {
             orderDate: "2024-05-01",
             status: "Pending",
             expectedDeliveryDate: "2024-05-08",
+            totalPrice: 150.99,
           },
           {
             id: 2,
@@ -22,6 +23,7 @@ export const OrdersProvider = ({ children }) => {
             orderDate: "2024-05-03",
             status: "Shipped",
             expectedDeliveryDate: "2024-05-10",
+            totalPrice: 99.99,
           },
         ];
   });

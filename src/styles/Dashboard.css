@@ -1,10 +1,52 @@
 /* Dashboard.css */
+
+/* Import Bootstrap styles */
 @import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
 
 .dashboard {
     text-align: center;
     margin: 0 auto;
-    /* Center align horizontally */
-    max-width: 600px;
-    /* Adjust the maximum width as per your design */
+    max-width: 1200px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 20px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+}
+
+.charts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.chart {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px;
+}
+
+@media (max-width: 576px) {
+    .chart {
+        margin: 10px;
+    }
+}
+
+.chart h3 {
+    margin-bottom: 20px;
 }

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useOrders } from "../data/orders";
+import ReactPaginate from "react-paginate";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../styles/OrdersManagement.css";
 
 function OrdersManagement() {
@@ -9,6 +12,30 @@ function OrdersManagement() {
   const [customerName, setCustomerName] = useState("");
   const [orderDate, setOrderDate] = useState("");
   const [newOrderStatus, setNewOrderStatus] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
+
+  // Filter orders based on search query
+  const filteredOrders = orders.filter(
+    (order) =>
+      order.id.toString().includes(searchQuery) ||
+      order.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.status.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Pagination logic
+  const pagesVisited = currentPage * itemsPerPage;
+  const currentOrders = filteredOrders.slice(
+    pagesVisited,
+    pagesVisited + itemsPerPage
+  );
+  const pageCount = Math.ceil(filteredOrders.length / itemsPerPage);
+
+  // Change page
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
 
   const handleViewDetails = (order) => {
     setSelectedOrder(order);
@@ -18,6 +45,7 @@ function OrdersManagement() {
     updateOrderStatus(selectedOrder.id, orderStatus);
     setSelectedOrder(null);
     setOrderStatus("");
+    toast.success(`Order ${selectedOrder.id} status updated to ${orderStatus}`);
   };
 
   const handleEditOrder = (order) => {
@@ -28,26 +56,49 @@ function OrdersManagement() {
   const handleDeleteOrder = (orderId) => {
     deleteOrder(orderId);
     setSelectedOrder(null);
+    toast.success(`Order ${orderId} deleted`);
   };
 
   const handleAddOrder = () => {
+    // Calculate expected delivery date by adding 7 days to the order date
+    const orderDateObject = new Date(orderDate);
+    const expectedDeliveryDateObject = new Date(
+      orderDateObject.getTime() + 7 * 24 * 60 * 60 * 1000
+    );
+
+    // Format expected delivery date as YYYY-MM-DD
+    const expectedDeliveryDate = expectedDeliveryDateObject
+      .toISOString()
+      .split("T")[0];
     const newOrder = {
       id: orders.length + 1,
       customerName,
       orderDate,
       status: newOrderStatus,
-      expectedDeliveryDate: "2024-05-08", // Just a placeholder for demonstration
+      expectedDeliveryDate,
+      totalPrice: 100,
     };
     addOrder(newOrder);
     setCustomerName("");
     setOrderDate("");
     setNewOrderStatus("");
+    toast.success(`New order ${newOrder.id} added`);
   };
 
   return (
     <div className="orders-management">
       <h2>Orders Management</h2>
-      <table>
+      <ToastContainer />
+      <div className="search-filter">
+        <input
+          type="text"
+          placeholder="Search orders..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="form-control"
+        />
+      </div>
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>Order ID</th>
@@ -58,7 +109,7 @@ function OrdersManagement() {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {currentOrders.map((order) => (
             <tr key={order.id}>
               <td>{order.id}</td>
               <td>{order.customerName}</td>
@@ -77,6 +128,18 @@ function OrdersManagement() {
           ))}
         </tbody>
       </table>
+
+      <ReactPaginate
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        pageCount={pageCount}
+        onPageChange={handlePageChange}
+        containerClassName={"pagination"}
+        previousLinkClassName={"pagination__link"}
+        nextLinkClassName={"pagination__link"}
+        disabledClassName={"pagination__link--disabled"}
+        activeClassName={"pagination__link--active"}
+      />
 
       {selectedOrder && (
         <div className="order-details">

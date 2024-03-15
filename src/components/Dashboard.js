@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useProducts } from "../data/products";
 import { useOrders } from "../data/orders";
-import { Pie, Bar } from "react-chartjs-2";
+import { Pie, Line } from "react-chartjs-2";
 import "../styles/Dashboard.css";
 import {
   Chart as ChartJS,
@@ -12,6 +12,9 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  LineController,
+  PointElement,
+  LineElement,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 
@@ -22,7 +25,10 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  LineController,
+  LineElement,
+  PointElement
 );
 
 function Dashboard() {
@@ -55,16 +61,25 @@ function Dashboard() {
     }
 
     if (Array.isArray(orders) && orders.length > 0) {
-      // Prepare data for order bar graph
-      const orderLabels = orders.map((order, index) => `Order ${index + 1}`);
-      const orderAmounts = orders.map((order) => order.totalPrice);
+      // Prepare data for order line graph
+      const statusCounts = orders.reduce((acc, order) => {
+        acc[order.status] = (acc[order.status] || 0) + 1;
+        return acc;
+      }, {});
+
+      const labels = Object.keys(statusCounts);
+      const data = Object.values(statusCounts);
+
       setOrderData({
-        labels: orderLabels,
+        labels: labels,
         datasets: [
           {
-            label: "Orders",
-            data: orderAmounts,
-            backgroundColor: "rgba(75, 192, 192, 0.6)",
+            label: "Number of Orders",
+            data: data,
+            borderColor: "rgba(75, 192, 192, 0.6)",
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderWidth: 1,
+            tension: 0,
           },
         ],
       });
@@ -88,10 +103,15 @@ function Dashboard() {
         <div className="col-md-6">
           <div className="card">
             <div className="card-header">
-              <h4>Order Amount Distribution</h4>
+              <h4>Number of Orders by Status</h4>
             </div>
             <div className="card-body">
-              {orderData && <Bar data={orderData} />}
+              {orderData && (
+                <Line
+                  data={orderData}
+                  options={{ scales: { y: { beginAtZero: true } } }}
+                />
+              )}
             </div>
           </div>
         </div>

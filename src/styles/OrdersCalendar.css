@@ -17,3 +17,15 @@
 .orders-calendar li {
     margin-bottom: 5px;
 }
+
+/* Highlight ordered orders */
+.orders-calendar li.ordered {
+    color: green;
+    /* Change color as desired */
+}
+
+/* Highlight delivered orders */
+.orders-calendar li.delivered {
+    color: blue;
+    /* Change color as desired */
+}
